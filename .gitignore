@@ -3,6 +3,13 @@ logs
 *.log
 npm-debug.log*
 
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
+# Bundle file
+bundle.js
+
 # Runtime data
 pids
 *.pid
