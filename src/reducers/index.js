@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import kubeReducer from './kube_reducer';
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state
+  kube: kubeReducer
 });
 
 export default rootReducer;

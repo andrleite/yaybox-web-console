@@ -1,0 +1,40 @@
+.avatar {
+  background-image: url( https://avatars.githubusercontent.com/u/12967948?v=3 );
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-36 { font-size: 36px; }
+
+a { color: inherit; }
+
+.mdl-layout {
+  background-color: #eee;
+}
+
+.mdl-layout-title {
+  text-align: center !important;
+}
+
+.demo-card-square.mdl-card {
+  width: 380px;
+  height: 240px;
+}
+
+.mdl-card__title-text {
+  color: #414B82;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #EEE;
+}
+
+/*
+.mdl-menu__container.is-visible .mdl-menu__outline {
+  position: absolute !important;
+  background-color: #7A7F99 !important;
+  left: 0!important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,.2) !important;
+
+}
+*/
