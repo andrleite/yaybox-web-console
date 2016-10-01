@@ -3,23 +3,29 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import ReduxPromise from 'redux-promise';
+import reduxThunk from 'redux-thunk';
+
 
 import App from './containers/app';
 import reducers from './reducers';
-import Dashboard from './containers/dashboard';
+import cardApps from './containers/card_apps';
+import Deployment from './containers/deployment';
+import Signout from './containers/signout';
 
 
-
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
+
+const token = localStorage.getItem('token');
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={Dashboard} />
-      </Route>
+        <IndexRoute component={cardApps} />
+        <Route path="deployments/:name" component={Deployment} />
+        <Route path="signout" component={Signout} />
+      </Route>        
     </Router>
   </Provider>
   , document.querySelector('.container'));

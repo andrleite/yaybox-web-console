@@ -4,10 +4,19 @@
   background-size: contain;
 }
 
+.demo-header {background-color: #272D4E !important}
+.mdl-layout-title {color: #eee !important; font-family: "Roboto", Helvetica, "Lucida Grande" !important}
+
 .material-icons.md-18 { font-size: 18px; }
-.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-36 { font-size: 36px; color: #eee; }
+.material-icons.md-48 { font-size: 48px; }
 
 a { color: inherit; }
+
+.fixed {
+  width: 100%;
+  position: fixed;
+}
 
 .mdl-layout {
   background-color: #eee;
@@ -18,7 +27,7 @@ a { color: inherit; }
 }
 
 .demo-card-square.mdl-card {
-  width: 380px;
+  width: 350px;
   height: 240px;
 }
 
@@ -26,6 +35,108 @@ a { color: inherit; }
   color: #414B82;
   margin-bottom: 10px;
   border-bottom: 1px solid #EEE;
+}
+
+.btn_add {
+  margin-top: 10px;
+  text-align: center !important;
+  margin-bottom: 5px !important;
+}
+
+.mdl-card__title .config_card {
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: 0;
+  background-color: #FFF !important;
+  }
+
+.mdl-card__title .config_card .mdl-button{
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: 0;
+
+}
+#settbtn {
+  background-color: #FFF !important;
+}
+
+#delete-icon {
+  color: darkred !important;
+}
+
+#edit_btn {
+  width: 100%;
+  margin-bottom: 5px;
+}
+#delete_btn {
+  width: 100%;
+  background-color:darkgrey!important;
+}
+
+.mdl-card .mdl-button {
+  background-color: #272D4E !important;
+  color: #eee !important;
+}
+
+.btn_add .app{
+  margin-left: 5px;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+#main-sidebar {
+  width: 180px;
+}
+#main-section {
+  margin-left: 50px;
+  width: 320px;
+}
+
+#main-section .demo-card-wide {
+  width: 100%;
+  height: 410px;
+  margin-bottom: 10px;
+}
+
+.menu.mdl-card {
+  height: 76px !important;
+}
+
+span.demo-card {
+  margin-bottom: 10px;
+}
+
+.row {
+  margin: 10px auto;
+}
+
+.page-content {
+  margin: 20px;
+}
+
+.content {
+  margin: 20px auto 0;
+  float: left;
+}
+
+#add-button{
+  margin: 10px 0 0 5px;
+  text-align: center;
+  margin-left: 45%;
+  margin-right: 50%;
+}
+
+#chart-cpu {
+  margin-left: 0 !important;
+}
+
+#btn_create_app {
+  text-align: right;
+  width: 100%;
+  margin-bottom: -20px;
+  margin-right: 0px;
+  height: 48px;
+  flex: 0 0 100%;
+  padding-right: 16px;
 }
 
 /*
