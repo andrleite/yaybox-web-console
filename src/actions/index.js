@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { FETCH_DEPLOYMENTS, FETCH_APP, DELETE_APP, UNAUTH_USER } from './types';
+import { CREATE_APP, FETCH_DEPLOYMENTS, FETCH_APP, DELETE_APP, UNAUTH_USER } from './types';
 
 const KUBE_API_URL = process.env.KUBE_API_URL;
 const KUBE_API_TOKEN = process.env.KUBE_API_TOKEN;
@@ -41,9 +41,69 @@ export function fetchDeployment(name) {
   }
 }
 
+export function createDeployment({appname, dockerimage, nscale, description, plan}){
+  const data = {
+    'apiVersion': 'extensions/v1beta1',
+    'kind': 'Deployment',
+    'metadata': {
+      "name": appname,
+      "labels": {
+        "app": appname
+      }
+    },
+    'spec': {
+      'replicas': nscale,
+      'selector': {
+        'matchLabels': {
+          'app': appname
+        }
+      },
+      'template': {
+        'metadata': {
+          'labels': {
+            'app': appname
+          }
+        },
+        'spec': {
+          'containers': [{
+            'name': appname,
+            'image': dockerimage,
+            'resources': {
+              'requests': {
+                'cpu': '100m',
+                'memory': '100Mi'
+              }
+            },
+            'ports': [{
+              'containerPort': 80,
+              'protocol': 'TCP'
+            }]
+          }]
+        }
+      }
+    },
+    'strategy': {
+      'type': 'RollingUpdate',
+      'rollingUpdate': {
+        'maxUnavailable': 1,
+        'maxSurge': 1
+      }
+    }
+  }
+
+  return function(dispatch) {
+    axios.post(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments`, data , header)
+      .then(response => {
+        dispatch({ type: CREATE_APP,
+          payload: response.data });
+        window.location.href = 'http://console.yaybox.com.br:8081';  
+      })
+    }
+  }
+
 export function deleteApp(name) {
   const request = axios.delete(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
-  return {
+  return  {
     type: DELETE_APP,
     payload: request
   }
