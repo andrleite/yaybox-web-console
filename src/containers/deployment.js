@@ -63,7 +63,6 @@ class Deployment extends Component {
   }
 
   render() {
-    console.log("TESTE ", this.props.app);
     return (
       <div>
         <main className="mdl-layout__content">

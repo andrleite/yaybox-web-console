@@ -4,7 +4,7 @@ import { CREATE_APP, FETCH_DEPLOYMENTS, FETCH_APP, DELETE_APP, UNAUTH_USER } fro
 
 const KUBE_API_URL = process.env.KUBE_API_URL;
 const KUBE_API_TOKEN = process.env.KUBE_API_TOKEN;
-//const KUBE_API_PORT = process.env.KUBE_API_PORT;
+const KUBE_API_PORT = process.env.KUBE_API_PORT;
 
 const header = {
   headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KUBE_API_TOKEN }
@@ -21,7 +21,7 @@ const header = {
 
 export function fetchDeployments() {
   return function(dispatch) {
-    axios.get(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments`, header)
+    axios.get(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments`, header)
       .then(response => {
         dispatch({ 
           type: FETCH_DEPLOYMENTS,
@@ -32,7 +32,7 @@ export function fetchDeployments() {
 
 export function fetchDeployment(name) {
   return function(dispatch) {
-    axios.get(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
+    axios.get(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
       .then(response => { dispatch({ 
         type: FETCH_APP,
         payload: response.data
@@ -95,11 +95,11 @@ export function createDeployment({appname, dockerimage, nscale, description, pla
 
   return function(dispatch) {
     axios.all([
-      axios.post(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments`, data_deploy , header),
-      axios.post(`${KUBE_API_URL}/api/v1/namespaces/default/services`, data_service , header)
+      axios.post(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments`, data_deploy , header),
+      axios.post(`${KUBE_API_URL}:${KUBE_API_PORT}/api/v1/namespaces/default/services`, data_service , header)
       ])
       .then(axios.spread( (deployResponse, serviceResponse) => {
-        window.location.href = 'http://console.yaybox.com.br:8081';          
+        window.location.href = 'http://console.yaybox.com.br';          
         dispatch({ 
           type: CREATE_APP,
           payload: deployResponse.data });
@@ -108,7 +108,7 @@ export function createDeployment({appname, dockerimage, nscale, description, pla
   }
 
 export function deleteApp(name) {
-    const request = axios.delete(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header);
+    const request = axios.delete(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header);
     return {
       type: DELETE_APP,
       payload: response.data };
