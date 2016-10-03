@@ -23,7 +23,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={cardApps} />
-        <Route path="deployments/:name" component={Deployment} />
+        <Route path="/:name" component={Deployment} />
         <Route path="signout" component={Signout} />
       </Route>        
     </Router>

@@ -4,7 +4,7 @@ import { CREATE_APP, FETCH_DEPLOYMENTS, FETCH_APP, DELETE_APP, UNAUTH_USER } fro
 
 const KUBE_API_URL = process.env.KUBE_API_URL;
 const KUBE_API_TOKEN = process.env.KUBE_API_TOKEN;
-const KUBE_API_PORT = process.env.KUBE_API_PORT;
+//const KUBE_API_PORT = process.env.KUBE_API_PORT;
 
 const header = {
   headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KUBE_API_TOKEN }
@@ -21,7 +21,7 @@ const header = {
 
 export function fetchDeployments() {
   return function(dispatch) {
-    axios.get(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments`, header)
+    axios.get(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments`, header)
       .then(response => {
         dispatch({ 
           type: FETCH_DEPLOYMENTS,
@@ -32,7 +32,7 @@ export function fetchDeployments() {
 
 export function fetchDeployment(name) {
   return function(dispatch) {
-    axios.get(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
+    axios.get(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
       .then(response => { dispatch({ 
         type: FETCH_APP,
         payload: response.data
@@ -42,37 +42,28 @@ export function fetchDeployment(name) {
 }
 
 export function createDeployment({appname, dockerimage, nscale, description, plan}){
-  const data = {
+  const data_deploy = {
     'apiVersion': 'extensions/v1beta1',
     'kind': 'Deployment',
     'metadata': {
       "name": appname,
-      "labels": {
-        "app": appname
-      }
+      "labels": { "app": appname }
     },
     'spec': {
       'replicas': nscale,
       'selector': {
-        'matchLabels': {
-          'app': appname
-        }
+        'matchLabels': { 'app': appname }
       },
       'template': {
         'metadata': {
-          'labels': {
-            'app': appname
-          }
+          'labels': { 'app': appname }
         },
         'spec': {
           'containers': [{
             'name': appname,
             'image': dockerimage,
             'resources': {
-              'requests': {
-                'cpu': '100m',
-                'memory': '100Mi'
-              }
+              'requests': { 'cpu': '100m', 'memory': '100Mi' }
             },
             'ports': [{
               'containerPort': 80,
@@ -84,30 +75,44 @@ export function createDeployment({appname, dockerimage, nscale, description, pla
     },
     'strategy': {
       'type': 'RollingUpdate',
-      'rollingUpdate': {
-        'maxUnavailable': 1,
-        'maxSurge': 1
-      }
+      'rollingUpdate': { 'maxUnavailable': 1, 'maxSurge': 1 }
+    }
+  }
+
+  const data_service = {
+    'kind': 'Service',
+    'apiVersion': 'v1',
+    'metadata': {
+      'name': appname + '-service',
+      'labels': {'app': appname }
+    },
+    'spec': {
+      'type': 'LoadBalancer',
+      'ports': [{ 'port': 80 }],
+      'selector': { 'app': appname }
     }
   }
 
   return function(dispatch) {
-    axios.post(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments`, data , header)
-      .then(response => {
-        dispatch({ type: CREATE_APP,
-          payload: response.data });
-        window.location.href = 'http://console.yaybox.com.br:8081';  
-      })
+    axios.all([
+      axios.post(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments`, data_deploy , header),
+      axios.post(`${KUBE_API_URL}/api/v1/namespaces/default/services`, data_service , header)
+      ])
+      .then(axios.spread( (deployResponse, serviceResponse) => {
+        window.location.href = 'http://console.yaybox.com.br:8081';          
+        dispatch({ 
+          type: CREATE_APP,
+          payload: deployResponse.data });
+      }));
     }
   }
 
 export function deleteApp(name) {
-  const request = axios.delete(`${KUBE_API_URL}:${KUBE_API_PORT}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header)
-  return  {
-    type: DELETE_APP,
-    payload: request
+    const request = axios.delete(`${KUBE_API_URL}/apis/extensions/v1beta1/namespaces/default/deployments/${name}`, header);
+    return {
+      type: DELETE_APP,
+      payload: response.data };
   }
-}
 
 export function signoutUser() {
   window.sessionStorage.removeItem('token');

@@ -48,7 +48,7 @@ class Cards extends Component {
                 <span>PLANO <strong>Basic</strong></span>
               </div>
               <div className="mdl-card__actions mdl-card--border">
-                <Link to={"deployments/" + x.metadata.name}><button id="edit_btn" className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect mdl-button--accent">
+                <Link to={"/" + x.metadata.name}><button id="edit_btn" className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect mdl-button--accent">
                   Editar  
                   </button>
                 </Link>
@@ -72,7 +72,7 @@ class Cards extends Component {
         <Dialog open={this.state.openDialog}>
           <DialogTitle>Novo aplicativo</DialogTitle>
           <DialogContent>
-            <Appform />
+            <Appform data={deploys}/>
           </DialogContent>
           <DialogActions fullWidth>
             <button onClick={this.handleCloseDialog} className="mdl-button mdl-js-button">Cancelar</button>
