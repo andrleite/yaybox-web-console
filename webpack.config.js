@@ -9,10 +9,12 @@ module.exports = {
       'process.env' : {
         'KUBE_API_URL' : JSON.stringify(process.env.KUBE_API_URL),
         'KUBE_API_PORT' : process.env.KUBE_API_PORT,
-        'KUBE_API_TOKEN' : JSON.stringify(process.env.KUBE_API_TOKEN)
+        'KUBE_API_TOKEN' : JSON.stringify(process.env.KUBE_API_TOKEN),
+        'NODE_ENV' : JSON.stringify('production')
       }
     })
   ],
+  target: 'node',
   output: {
     path: __dirname,
     publicPath: '/',
