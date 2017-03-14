@@ -6,6 +6,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import reduxThunk from 'redux-thunk';
 
 
+
 import App from './containers/app';
 import reducers from './reducers';
 import cardApps from './containers/card_apps';
@@ -16,7 +17,7 @@ import Signout from './containers/signout';
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-const token = localStorage.getItem('token');
+//const token = localStorage.getItem('token');
 
 ReactDOM.render(
   <Provider store={store}>
@@ -24,8 +25,9 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={cardApps} />
         <Route path="/:name" component={Deployment} />
-        <Route path="signout" component={Signout} />
       </Route>        
+      <Route path="/log/out" component={Signout}>
+      </Route>
     </Router>
   </Provider>
   , document.querySelector('.container'));

@@ -11,7 +11,7 @@ class Signout extends Component {
 
   render() {
     return (
-      window.location.href = 'http://yaybox.com.br'
+      window.location.href = 'http://yaybox.com.br:8080'
     );
   }
 }

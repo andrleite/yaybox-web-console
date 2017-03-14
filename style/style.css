@@ -125,6 +125,21 @@ span.demo-card {
   margin-right: 50%;
 }
 
+#btnscale{
+  margin: 0 0 0 0px;
+  text-align: center;
+  margin-left: 10%;
+  width: 30%;
+}
+
+#btnupdate{
+  margin: 0 0 0 5px;
+  text-align: center;
+  margin-left: 10%;
+  width: 30%;
+}
+
+
 #chart-cpu {
   margin-left: 0 !important;
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { Doughnut } from 'react-chartjs-2';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Spinner } from 'react-mdl';
 
 const data = {
 	labels: [
@@ -45,9 +46,37 @@ const data2 = {
 
 
 class Deployment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleOpenDialog2 = this.handleOpenDialog2.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
+  }
+
+
   componentDidMount() {
     this.props.fetchDeployment(this.props.params.name);
   }
+
+    handleOpenDialog(){
+    this.setState({
+      openDialog: true
+    });
+  }
+
+    handleOpenDialog2(){
+    this.setState({
+      openDialog: true
+    });
+  }
+
+  handleCloseDialog() {
+    this.setState({
+      openDialog: false
+    })
+  }
+
 
   renderName(app){
     return (
@@ -87,6 +116,23 @@ class Deployment extends Component {
                   <h4><strong>Details</strong></h4>
                   {this.props.app.map(this.renderName)}
                 </div>
+                  <div>
+                    <form>
+                      <div className="mdl-textfield mdl-js-textfield">
+                        <input className="mdl-textfield__input" type="number" min="1" max="10" pattern="-?[0-9]*(\.[0-9]+)?" id="nscale"/>
+                        <label className="mdl-textfield__label" htmlFor="nscale">Número de escaladas de 1 a 10</label>
+                        <span className="mdl-textfield__error">Máximo 10 escaladas</span>
+                      </div>
+                      <button id="btnscale" className="mdl-button mdl-js-button">Escalar</button>
+                    </form>
+                  </div> 
+                  <form>
+                    <div className="mdl-textfield mdl-js-textfield">
+                      <input className="mdl-textfield__input" type="text" id="dockerimage"/>
+                      <label className="mdl-textfield__label" htmlFor="dockerimage">Docker image...</label>  
+                    </div>
+                    <button id="btnupdate" className="mdl-button mdl-js-button">Update</button>
+                  </form>
               </div>
             </div>
             </div>

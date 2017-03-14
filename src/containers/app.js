@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-
 import Header from './header';
 
+class App extends Component {
 
-export default class App extends Component {
+ //  componentWillMount() {
+   // this.props.getNameSpace();    
+  //} 
+
   render() {
+
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <Header />
@@ -13,3 +17,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Spinner } from 'react-mdl';
 
-import { fetchDeployments, deleteApp } from '../actions';
+import { fetchDeployments, deleteApp, getNameSpace } from '../actions';
 import Appform from './app_form';
 
 class Cards extends Component {
@@ -44,7 +44,7 @@ class Cards extends Component {
               </div>
               <div className="mdl-card__supporting-text">
                 <span>Replicas <strong>{x.spec.replicas}</strong></span><br/><br/>
-                <span>URL <strong>guestbook.yayboxapp.com</strong></span><br/><br/>
+                <span>URL <strong>{x.metadata.name}.yaybox.com.br</strong></span><br/><br/>
                 <span>PLANO <strong>Basic</strong></span>
               </div>
               <div className="mdl-card__actions mdl-card--border">
@@ -88,8 +88,9 @@ class Cards extends Component {
 
 function mapStateToProps(state) {
   return { 
-    deploys: state.k8s
+    deploys: state.k8s,
+    //namespace: state.ns
   };
 }
 
-export default connect(mapStateToProps, { fetchDeployments, deleteApp })(Cards);
+export default connect(mapStateToProps, { fetchDeployments, deleteApp, getNameSpace })(Cards);
